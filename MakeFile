@@ -1,0 +1,19 @@
+ASM = nasm
+ASMFLAGS = -felf64
+LD = ld -o
+
+lib.o: lib.asm
+        $(ASM) $(ASMFLAGS) -o lib.o lib.asm
+
+dict.o: dict.asm lib.o
+        $(ASM) $(ASMFLAGS) -o dict dict.o
+
+main.o: dict.o lib.o
+        $(ASM) $(ASMFLAGS) -o main.o main.asm
+
+program:  main.o dict.o lib.o
+        $(LD) program   main.o lib.o dict.o        
+        
+        
+test:
+    python test.py
